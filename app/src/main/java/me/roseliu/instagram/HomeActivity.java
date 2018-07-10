@@ -2,6 +2,7 @@ package me.roseliu.instagram;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.parse.FindCallback;
@@ -17,6 +18,13 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setElevation(
+                getResources().getDimensionPixelSize(R.dimen.action_bar_elevation)
+        );
 
 
         final Post.Query postsQuery = new Post.Query();

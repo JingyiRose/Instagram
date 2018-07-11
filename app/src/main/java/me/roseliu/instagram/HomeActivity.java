@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -59,11 +60,14 @@ public class HomeActivity extends AppCompatActivity {
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
     File photoFile;
+    ImageView ivPreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -112,9 +116,9 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        fragments.add(new TimeLineFragment());
         fragments.add(new PostFragment());
-        fragments.add(new PostFragment());
-        fragments.add(new PostFragment());
+        fragments.add(new ProfileFragment());
 
         viewPager = findViewById(R.id.pager);
 
@@ -165,7 +169,15 @@ public class HomeActivity extends AppCompatActivity {
                         // Set the item to the first item in our list.
                         // This is the discovery placeholder fragment.
                         viewPager.setCurrentItem(1);
+                        if(ivPreview==null) {
+                            onLaunchCamera();
+                        }else if (((BitmapDrawable) ivPreview.getDrawable()).getBitmap() == null) {
+                                onLaunchCamera();
+                        }else {
+                            break;
+                        }
                         return true;
+
                     case R.id.action_profile:
                         // Set the current item to the third item in our list
                         // which is the profile fragment placeholder
@@ -174,6 +186,7 @@ public class HomeActivity extends AppCompatActivity {
                     default:
                         return false;
                 }
+                return true;
             }
         });
 
@@ -266,7 +279,7 @@ public class HomeActivity extends AppCompatActivity {
                 // See BitmapScaler.java: https://gist.github.com/nesquena/3885707fd3773c09f1bb
                 Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(takenImage, 300);
                 // Load the taken image into a preview
-                ImageView ivPreview = (ImageView) findViewById(R.id.ivPreview);
+                ivPreview = (ImageView) findViewById(R.id.ivPreview);
                 ivPreview.setImageBitmap(resizedBitmap);
 
                 // Configure byte output stream

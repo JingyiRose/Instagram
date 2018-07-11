@@ -58,11 +58,6 @@
         android:layout_height="458dp"
         android:layout_centerInParent="true">
 
-        <ImageView
-            android:id="@+id/ivPreview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/camera_shadow_fill" />
     </FrameLayout>
 
 

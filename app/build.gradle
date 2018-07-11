@@ -12,6 +12,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -35,3 +36,5 @@ dependencies {
 
 
 }
+
+

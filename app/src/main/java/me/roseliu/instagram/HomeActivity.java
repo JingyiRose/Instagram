@@ -27,12 +27,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -44,16 +47,14 @@ import java.util.List;
 
 import me.roseliu.instagram.model.Post;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements PostFragment.Callback{
 
 
     private final List<Fragment> fragments = new ArrayList<>();
-
     private ViewPager viewPager;
-
     private FragAdapter adapter;
-
     private BottomNavigationView bottomNavigation;
+    private File resizedFile;
 
 
     public final String APP_TAG = "MyCustomApp";
@@ -62,12 +63,11 @@ public class HomeActivity extends AppCompatActivity {
     File photoFile;
     ImageView ivPreview;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -85,24 +85,6 @@ public class HomeActivity extends AppCompatActivity {
 //        );
 
 
-        final Post.Query postsQuery = new Post.Query();
-        postsQuery.getTop().withUser();
-
-        postsQuery.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> objects, ParseException e) {
-                if (e == null){
-                    for(int i=0; i<objects.size();++i){
-                        Log.d("HomeActivity","Post["+i+"]"
-                                +objects.get(i).getDescription()
-                                +"\nusername = "+objects.get(i).getUser().getUsername());
-                    }
-                }
-                else{
-                    e.printStackTrace();
-                }
-            }
-        });
 
         Button btLogout = findViewById(R.id.btLogout);
         btLogout.setOnClickListener(new View.OnClickListener() {
@@ -288,7 +270,7 @@ public class HomeActivity extends AppCompatActivity {
                 resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
                 // Create a new file for the resized bitmap (`getPhotoFilenrbvdcjfgdnrujhuftfgtrbikuvkhbtfUri` defined above)
                 Uri resizedUri = Uri.fromFile(getPhotoFileUri(photoFileName + "_resized"));
-                File resizedFile = new File(resizedUri.getPath());
+                resizedFile = new File(resizedUri.getPath());
                 try {
                     resizedFile.createNewFile();
                 } catch (IOException e) {
@@ -316,5 +298,59 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void loadTopPost(){
+        final Post.Query postsQuery = new Post.Query();
+        postsQuery.getTop().withUser();
+
+        postsQuery.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> objects, ParseException e) {
+                if (e == null){
+                    for(int i=0; i<objects.size();++i){
+                        Log.d("HomeActivity","Post["+i+"]"
+                                +objects.get(i).getDescription()
+                                +"\nusername = "+objects.get(i).getUser().getUsername());
+                    }
+                }
+                else{
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    public void createPost(View view){
+        final EditText etDescription = findViewById(R.id.etDescription);
+        final String description= etDescription.getText().toString();
+        final ParseUser user = ParseUser.getCurrentUser();
+        final File file = resizedFile;
+        final ParseFile imageFile= new ParseFile(file);
+
+        final Post newPost = new Post();
+        newPost.setDescription(description);
+        newPost.setImage(imageFile);
+        newPost.setUser(user);
+
+        newPost.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e==null){
+                    Log.d("HomeActivity", "Create post success");
+                    loadTopPost();
+                }else{
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
+    }
+
+
+
+
 
 }

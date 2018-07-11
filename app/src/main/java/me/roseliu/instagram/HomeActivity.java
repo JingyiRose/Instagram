@@ -1,17 +1,22 @@
 package me.roseliu.instagram;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +33,11 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +68,12 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if (Build.VERSION.SDK_INT >= 23) {
+            int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
 
 
 //        getSupportActionBar().setElevation(
@@ -240,16 +255,49 @@ public class HomeActivity extends AppCompatActivity {
         return file;
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getPath());
                 // RESIZE BITMAP, see section below
+                // See BitmapScaler.java: https://gist.github.com/nesquena/3885707fd3773c09f1bb
+                Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(takenImage, 300);
                 // Load the taken image into a preview
                 ImageView ivPreview = (ImageView) findViewById(R.id.ivPreview);
-                ivPreview.setImageBitmap(takenImage);
+                ivPreview.setImageBitmap(resizedBitmap);
+
+                // Configure byte output stream
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                // Compress the image further
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+                // Create a new file for the resized bitmap (`getPhotoFilenrbvdcjfgdnrujhuftfgtrbikuvkhbtfUri` defined above)
+                Uri resizedUri = Uri.fromFile(getPhotoFileUri(photoFileName + "_resized"));
+                File resizedFile = new File(resizedUri.getPath());
+                try {
+                    resizedFile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(resizedFile);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                // Write the bytes of the bitmap to file
+                try {
+                    fos.write(bytes.toByteArray());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else { // Result was a failure
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }

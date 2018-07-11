@@ -7,7 +7,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.FileProvider;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,11 +29,21 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import me.roseliu.instagram.model.Post;
 
 public class HomeActivity extends AppCompatActivity {
+
+
+    private final List<Fragment> fragments = new ArrayList<>();
+
+    private ViewPager viewPager;
+
+    private FragAdapter adapter;
+
+    private BottomNavigationView bottomNavigation;
 
 
     public final String APP_TAG = "MyCustomApp";
@@ -77,9 +93,95 @@ public class HomeActivity extends AppCompatActivity {
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 final Intent intent = new Intent(HomeActivity.this, LoginActivity.class); //since inside a callback
                 startActivity(intent);
+
             }
         });
 
+        fragments.add(new PostFragment());
+        fragments.add(new PostFragment());
+        fragments.add(new PostFragment());
+
+        viewPager = findViewById(R.id.pager);
+
+        adapter = new FragAdapter(getSupportFragmentManager(), fragments);
+
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        bottomNavigation.setSelectedItemId(R.id.action_home);
+                        break;
+                    case 1:
+                        bottomNavigation.setSelectedItemId(R.id.action_post);
+                        break;
+                    case 2:
+                        bottomNavigation.setSelectedItemId(R.id.action_profile);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
+        // Grab a reference to our bottom navigation view
+        bottomNavigation = findViewById(R.id.bottom_navigation);
+
+        // Handle the click for each item on the bottom navigation view.
+        // we then delegate this out to the view pager adapter such that it can switch the
+        // page which we are currently displaying
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        // Set the item to the first item in our list.
+                        // This is the home placeholder fragment.
+                        viewPager.setCurrentItem(0);
+                        return true;
+                    case R.id.action_post:
+                        // Set the item to the first item in our list.
+                        // This is the discovery placeholder fragment.
+                        viewPager.setCurrentItem(1);
+                        return true;
+                    case R.id.action_profile:
+                        // Set the current item to the third item in our list
+                        // which is the profile fragment placeholder
+                        viewPager.setCurrentItem(2);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+    }
+
+    static class FragAdapter extends FragmentStatePagerAdapter {
+
+        private final List<Fragment> fragments;
+
+        public FragAdapter(FragmentManager fm, List<Fragment> fragments) {
+            super(fm);
+            this.fragments = fragments;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
     }
 
     @Override

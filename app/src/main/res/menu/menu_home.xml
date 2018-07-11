@@ -5,7 +5,6 @@
         android:id="@+id/action_camera"
         android:icon="@drawable/camera_shadow_fill"
         android:title="action_camera"
-        app:showAsAction="always"
-        />
+        app:showAsAction="always" />
 
 </menu>

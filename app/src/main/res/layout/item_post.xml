@@ -2,12 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ivProfilePhoto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/ibProfilePhoto"
+        android:id="@+id/ivProfilePhoto"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentStart="true"
@@ -15,38 +14,39 @@
         app:srcCompat="@drawable/instagram_user_filled_24" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tvUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/ibProfilePhoto"
+        android:layout_toEndOf="@+id/ivProfilePhoto"
         android:text="TextView" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/ivNavigation"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/media_option_button"
         android:layout_marginEnd="5dp"
-        android:layout_marginTop="3dp"/>
+        android:layout_marginTop="3dp"
+        app:srcCompat="@drawable/media_option_button" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/ivPostImage"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/ibProfilePhoto"
+        android:layout_below="@+id/ivProfilePhoto"
         app:srcCompat="@drawable/camera_shadow_fill" />
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:id="@+id/ibSend"
+        android:layout_width="29dp"
+        android:layout_height="38dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/imageView5"
+        android:layout_below="@+id/ivPostImage"
         android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/direct" />
 </RelativeLayout>

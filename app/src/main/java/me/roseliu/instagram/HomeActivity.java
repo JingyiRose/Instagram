@@ -268,7 +268,7 @@ public class HomeActivity extends AppCompatActivity implements PostFragment.Call
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 // Compress the image further
                 resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-                // Create a new file for the resized bitmap (`getPhotoFilenrbvdcjfgdnrujhuftfgtrbikuvkhbtfUri` defined above)
+                // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
                 Uri resizedUri = Uri.fromFile(getPhotoFileUri(photoFileName + "_resized"));
                 resizedFile = new File(resizedUri.getPath());
                 try {

@@ -259,7 +259,7 @@ public class HomeActivity extends AppCompatActivity implements PostFragment.Call
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getPath());
                 // RESIZE BITMAP, see section below
                 // See BitmapScaler.java: https://gist.github.com/nesquena/3885707fd3773c09f1bb
-                Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(takenImage, 300);
+                Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(takenImage, 400);
                 // Load the taken image into a preview
                 ivPreview = (ImageView) findViewById(R.id.ivPreview);
                 ivPreview.setImageBitmap(resizedBitmap);

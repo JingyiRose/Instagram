@@ -55,6 +55,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
         }
+
+        holder.tvDescription.setText(post.getDescription());
         holder.tvUsername.setText(user.getUsername());
         Glide.with(mView.getContext()).load(post.getImage().getUrl()).into(holder.ivPostImage);
 
@@ -73,6 +75,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         public ImageView ivPostImage;
         public ImageView ivNavigation;
         public ImageButton ibSend;
+        public TextView tvDescription;
 
 
         public ViewHolder(View itemView) {
@@ -86,6 +89,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             ivPostImage = (ImageView) itemView.findViewById(R.id.ivPostImage);
             ivNavigation = (ImageView)itemView.findViewById(R.id.ivNavigation);
             ibSend = (ImageButton)itemView.findViewById(R.id.ibSend);
+            tvDescription=(TextView)itemView.findViewById(R.id.tvDescription);
 
 
         }

@@ -3,6 +3,7 @@ package me.roseliu.instagram;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,7 +25,7 @@ public class TimeLineFragment extends Fragment {
     RecyclerView rvPosts;
     Context mContext;
 
-    //private SwipeRefreshLayout swipeContainer;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     public void onAttach(Context context) {
@@ -44,10 +45,31 @@ public class TimeLineFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_time_line, container, false);
         rvPosts = (RecyclerView)view.findViewById(R.id.rvPosts);
         posts= new ArrayList<>();
-        postAdapter = new PostAdapter(view,posts); //TODO context?
+        postAdapter = new PostAdapter(view,posts); 
         rvPosts.setLayoutManager(new LinearLayoutManager(mContext));
         rvPosts.setAdapter(postAdapter);
         populateTimeLine();
+
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                postAdapter.clear();
+                populateTimeLine();
+                //postAdapter.addAll(posts);
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
 
         return view;
     }
@@ -59,10 +81,15 @@ public class TimeLineFragment extends Fragment {
             @Override
             public void done(List<Post> objects, com.parse.ParseException e) {
                 if (e == null){
-                    for(int i=0; i<objects.size();++i){
+//                    for(int i=0; i<objects.size();++i){
+//                        Post post= objects.get(i);
+//                        posts.add(0,post);
+//                        postAdapter.notifyItemInserted(0);
+//                    }
+                    for(int i=objects.size()-1; i>0;--i){
                         Post post= objects.get(i);
                         posts.add(post);
-                        postAdapter.notifyItemInserted(posts.size() - 1);
+                        postAdapter.notifyItemInserted(objects.size() - 1);
                     }
                 }
                 else{

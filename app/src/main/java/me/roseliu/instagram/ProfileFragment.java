@@ -9,6 +9,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.parse.FindCallback;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -27,11 +30,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import me.roseliu.instagram.model.Post;
 
 import static android.app.Activity.RESULT_OK;
 
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
+
+    GalleryAdapter galleryAdapter;
+    ArrayList<Post> posts;
+    RecyclerView rvGallery;
 
     ParseUser fUser;
     ImageView ivProfilePhoto;
@@ -60,8 +71,35 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         ibTakeProfilePhoto.setOnClickListener(this);
 
+        rvGallery = (RecyclerView)view.findViewById(R.id.rvGallery);
+        posts= new ArrayList<>();
+        galleryAdapter = new GalleryAdapter(view,posts);
+        rvGallery.setLayoutManager(new GridLayoutManager(view.getContext(),3));
+        rvGallery.setAdapter(galleryAdapter);
+        populateGallery();
+
 
         return view;
+    }
+
+    private void populateGallery(){
+        final Post.Query postsQuery = new Post.Query();
+
+        postsQuery.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> objects, com.parse.ParseException e) {
+                if (e == null){
+                    for(int i=objects.size()-1; i>0;--i){
+                        Post post= objects.get(i);
+                        posts.add(post);
+                        galleryAdapter.notifyItemInserted(objects.size() - 1);
+                    }
+                }
+                else{
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     //TODO when take photo horizontally, the user is null
@@ -167,6 +205,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         }
     }
+
+
 
 
 }

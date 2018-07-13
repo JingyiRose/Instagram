@@ -346,6 +346,8 @@ public class HomeActivity extends AppCompatActivity implements PostFragment.Call
                 if(e==null){
                     Log.d("HomeActivity", "Create post success");
                     loadTopPost();
+                    PostFragment pf =(PostFragment)fragments.get(1);
+                    pf.pbdisappear();
                 }else{
                     e.printStackTrace();
                 }

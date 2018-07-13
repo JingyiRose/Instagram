@@ -10,8 +10,6 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import me.roseliu.instagram.model.Post;
@@ -41,9 +39,8 @@ public class DetailPostActivity extends AppCompatActivity {
                     // Access special values that are built-in to each object
 
                     Date createdAt = post.getCreatedAt();
-                    DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy");
-                    String createdDate = df.format(createdAt);
-                    tvTimestamp.setText(createdDate);
+
+                    tvTimestamp.setText(createdAt.toString());
 
                     try {
                         String username= post.getUser().fetchIfNeeded().getUsername();

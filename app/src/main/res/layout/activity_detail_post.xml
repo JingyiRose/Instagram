@@ -7,15 +7,16 @@
     tools:context=".DetailPostActivity">
 
     <ImageView
-        android:id="@+id/tvPostImage"
+        android:id="@+id/ivPostImage"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="410dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32"
         app:srcCompat="@drawable/camera_shadow_fill" />
 
     <TextView
@@ -40,7 +41,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPostImage"
+        app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
         app:layout_constraintVertical_bias="0.24000001" />
 
     <TextView

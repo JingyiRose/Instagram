@@ -69,6 +69,8 @@ public class HomeActivity extends AppCompatActivity implements PostFragment.Call
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -101,6 +103,7 @@ public class HomeActivity extends AppCompatActivity implements PostFragment.Call
         fragments.add(new TimeLineFragment());
         fragments.add(new PostFragment());
         fragments.add(new ProfileFragment());
+
 
         viewPager = findViewById(R.id.pager);
 
@@ -164,6 +167,8 @@ public class HomeActivity extends AppCompatActivity implements PostFragment.Call
                         // Set the current item to the third item in our list
                         // which is the profile fragment placeholder
                         viewPager.setCurrentItem(2);
+                        ProfileFragment profileFragment = (ProfileFragment) fragments.get(2);
+                        profileFragment.setCurrentUser(ParseUser.getCurrentUser());
                         return true;
                     default:
                         return false;
@@ -253,6 +258,7 @@ public class HomeActivity extends AppCompatActivity implements PostFragment.Call
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk

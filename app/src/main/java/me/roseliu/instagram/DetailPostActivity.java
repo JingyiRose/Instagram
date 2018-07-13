@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -53,7 +54,7 @@ public class DetailPostActivity extends AppCompatActivity {
 
                     String url = post.getImage().getUrl();
 
-                    //Glide.with(DetailPostActivity.this).load(post.getImage().getUrl()).into(ivPostImage);
+                    Glide.with(DetailPostActivity.this).load(post.getImage().getUrl()).into(ivPostImage);
 
                 } else {
                     e.printStackTrace();

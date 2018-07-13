@@ -156,7 +156,7 @@ public class HomeActivity extends AppCompatActivity implements PostFragment.Call
                         viewPager.setCurrentItem(1);
                         if(ivPreview==null) {
                             onLaunchCamera();
-                        }else if (((BitmapDrawable) ivPreview.getDrawable()).getBitmap() == null) {
+                        }else if (((BitmapDrawable) ivPreview.getDrawable()) == null) {
                                 onLaunchCamera();
                         }else {
                             break;

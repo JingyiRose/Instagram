@@ -9,12 +9,13 @@
 
     <ImageView
         android:id="@+id/ivProfilePhoto"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="152dp"
+        android:layout_height="131dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:src="@android:drawable/ic_menu_myplaces"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@android:drawable/sym_def_app_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,21 +25,28 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/ivProfilePhoto"
+        android:layout_marginEnd="44dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/ivProfilePhoto"
+        app:layout_constraintHorizontal_bias="0.738"
+        app:layout_constraintStart_toStartOf="@+id/ivProfilePhoto"
         app:layout_constraintTop_toBottomOf="@+id/ivProfilePhoto" />
 
-    <Button
-        android:id="@+id/btTakeProfilePhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:text="camera"
-        app:layout_constraintBottom_toBottomOf="@+id/ivProfilePhoto"
-        app:layout_constraintStart_toEndOf="@+id/ivProfilePhoto" />
+    <ImageButton
+        android:id="@+id/ibTakeProfilePhoto"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/cameraicon"
+        app:layout_constraintStart_toEndOf="@+id/ivProfilePhoto"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:layout_width="0dp"

@@ -4,5 +4,12 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="action_bar_semi_transparent_white">#bfffffff</color>
+    <color name="ig_brand_purple">#8a3ab9</color>
+    <color name="ig_brand_purple_70a">#B38a3ab9</color>
+    <color name="ig_brand_blue">#4c68d7</color>
+    <color name="ig_brand_pinkish">#bc2a8d</color>
+    <color name="ig_brand_yellow_gold">#fccc63</color>
+    <color name="ig_brand_yellow_gold_70a">#B3fccc63</color>
+    <color name="ig_brand_yellow_orange">#fbad50</color>
 
 </resources>

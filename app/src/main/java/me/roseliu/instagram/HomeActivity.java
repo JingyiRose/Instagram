@@ -167,6 +167,7 @@ public class HomeActivity extends AppCompatActivity implements PostFragment.Call
                         // Set the current item to the third item in our list
                         // which is the profile fragment placeholder
                         viewPager.setCurrentItem(2);
+                        //TODO where should I put these two lines
                         ProfileFragment profileFragment = (ProfileFragment) fragments.get(2);
                         profileFragment.setCurrentUser(ParseUser.getCurrentUser());
                         return true;

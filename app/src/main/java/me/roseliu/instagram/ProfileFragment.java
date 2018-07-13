@@ -58,16 +58,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         btTakeProfilePhoto = view.findViewById(R.id.btTakeProfilePhoto);
         ivProfilePhoto = view.findViewById(R.id.ivProfilePhoto);
 
+        btTakeProfilePhoto.setOnClickListener(this);
 
-        //String name = fUser.getUsername();
 
         return view;
     }
 
-
+    //TODO when take photo horizontally, the user is null
     public void setCurrentUser(ParseUser user) {
-        fUser = user;tvUsername.setText(fUser.getUsername());
-        btTakeProfilePhoto.setOnClickListener(this);
+        fUser = user;
+        tvUsername.setText(fUser.getUsername());
         if (fUser != null && fUser.getParseFile("Profile") != null) {
             Glide.with(getContext()).load(fUser.getParseFile("Profile").getUrl()).into(ivProfilePhoto);
         }

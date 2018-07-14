@@ -61,6 +61,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         }
         holder.tvTimestamp.setText(post.getCreatedAt().toString());
 
+        holder.tvCount.setText(String.valueOf(post.getLikeCount()));
+
+        if(post.hasLiked()) {
+            holder.ibLikes.setImageResource(R.drawable.ufi_heart_active);
+        }else{
+            holder.ibLikes.setImageResource(R.drawable.ufi_heart);
+
+        }
+
 
     }
 
@@ -79,6 +88,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         public TextView tvDescription;
         public TextView tvTimestamp;
         public ImageButton ibLikes;
+        public TextView tvCount;
 
 
         public ViewHolder(View itemView) {
@@ -95,6 +105,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             tvDescription=(TextView)itemView.findViewById(R.id.tvDescription);
             tvTimestamp = (TextView)itemView.findViewById(R.id.tvTimestamp);
             ibLikes = (ImageButton)itemView.findViewById(R.id.ibLikes);
+            tvCount = (TextView)itemView.findViewById(R.id.tvCount);
+
 
             ibLikes.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -103,14 +115,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     int position=getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         Post post = mPosts.get(position);
+                        int count = post.getLikeCount();
                         if(post.hasLiked()) {
                             ibLikes.setImageResource(R.drawable.ufi_heart);
                             post.unlikePost();
                             post.saveInBackground();
+                            tvCount.setText(String.valueOf(count-1));
                         }else{
                             ibLikes.setImageResource(R.drawable.ufi_heart_active);
                             post.likePost();
                             post.saveInBackground();
+                            tvCount.setText(String.valueOf(count+1));
 
                         }
                     }

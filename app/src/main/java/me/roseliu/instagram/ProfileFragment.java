@@ -85,6 +85,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private void populateGallery(){
         final Post.Query postsQuery = new Post.Query();
 
+        postsQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+
         postsQuery.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> objects, com.parse.ParseException e) {

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.parse.FindCallback;
 
@@ -24,6 +25,7 @@ public class TimeLineFragment extends Fragment {
     ArrayList<Post> posts;
     RecyclerView rvPosts;
     Context mContext;
+    ImageButton ibLikes;
 
     private SwipeRefreshLayout swipeContainer;
 
@@ -44,6 +46,7 @@ public class TimeLineFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_time_line, container, false);
         rvPosts = (RecyclerView)view.findViewById(R.id.rvPosts);
+
         posts= new ArrayList<>();
         postAdapter = new PostAdapter(view,posts); 
         rvPosts.setLayoutManager(new LinearLayoutManager(mContext));
@@ -98,5 +101,7 @@ public class TimeLineFragment extends Fragment {
             }
         });
     }
+
+
 }
 

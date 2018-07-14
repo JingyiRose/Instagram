@@ -78,6 +78,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         public ImageButton ibSend;
         public TextView tvDescription;
         public TextView tvTimestamp;
+        public ImageButton ibLikes;
 
 
         public ViewHolder(View itemView) {
@@ -93,6 +94,30 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             ibSend = (ImageButton)itemView.findViewById(R.id.ibSend);
             tvDescription=(TextView)itemView.findViewById(R.id.tvDescription);
             tvTimestamp = (TextView)itemView.findViewById(R.id.tvTimestamp);
+            ibLikes = (ImageButton)itemView.findViewById(R.id.ibLikes);
+
+            ibLikes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ParseUser user = ParseUser.getCurrentUser();
+                    int position=getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        Post post = mPosts.get(position);
+                        if(post.hasLiked()) {
+                            ibLikes.setImageResource(R.drawable.ufi_heart);
+                            post.unlikePost();
+                            post.saveInBackground();
+                        }else{
+                            ibLikes.setImageResource(R.drawable.ufi_heart_active);
+                            post.likePost();
+                            post.saveInBackground();
+
+                        }
+                    }
+
+                }
+            });
+
             itemView.setOnClickListener(this);
 
 

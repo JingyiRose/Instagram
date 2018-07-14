@@ -64,7 +64,7 @@
         android:layout_height="@dimen/bottomIconSize"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/ivPostImage"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
@@ -92,7 +92,7 @@
         app:layout_constraintVertical_bias="0.046" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/ibLikes"
         android:layout_width="@dimen/bottomIconSize"
         android:layout_height="33dp"
         android:layout_marginStart="8dp"
@@ -101,7 +101,8 @@
         android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
-        app:srcCompat="@drawable/ufi_heart" />
+        app:srcCompat="@drawable/ufi_heart"
+        android:onClick="likePost"/>
 
     <ImageButton
         android:id="@+id/imageButton2"
@@ -119,11 +120,13 @@
         android:id="@+id/imageButton3"
         android:layout_width="@dimen/bottomIconSize"
         android:layout_height="@dimen/bottomIconSize"
-        android:layout_marginStart="15dp"
+        android:layout_marginEnd="288dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ibLikes"
         app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
         app:srcCompat="@drawable/ufi_comment" />
 

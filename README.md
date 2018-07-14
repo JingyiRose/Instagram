@@ -1,4 +1,4 @@
-# Project 3 - *Name of App Here*
+# Project 3 - *Real Instagram*
 
 **realInstagram** is a photo sharing app using Parse as its backend.
 
